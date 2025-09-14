@@ -1,0 +1,210 @@
+{
+  "name": "Petty Zen - App de Relaxamento para Cães",
+  "short_name": "Petty Zen",
+  "description": "App completo para relaxar seu cãozinho com áudios terapêuticos e acompanhamento personalizado",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#ff9800",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "pt-BR",
+  "categories": ["lifestyle", "health", "utilities"],
+  
+  "icons": [
+    {
+      "src": "assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "screenshots/home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tela inicial com recomendação diária"
+    },
+    {
+      "src": "screenshots/player.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Player de áudio com biblioteca completa"
+    },
+    {
+      "src": "screenshots/progress.png",
+      "sizes": "390x844", 
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Gráficos de progresso e conquistas"
+    },
+    {
+      "src": "screenshots/chat.png",
+      "sizes": "390x844",
+      "type": "image/png", 
+      "form_factor": "narrow",
+      "label": "Assistente virtual Petty"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "SOS Ansiedade",
+      "short_name": "SOS",
+      "description": "Tocar áudio calmante imediatamente",
+      "url": "/?action=emergency",
+      "icons": [
+        {
+          "src": "icons/shortcut-emergency.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Registro Diário",
+      "short_name": "Registro",
+      "description": "Registrar humor do pet hoje",
+      "url": "/?action=mood-check",
+      "icons": [
+        {
+          "src": "icons/shortcut-mood.png",
+          "sizes": "96x96", 
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Chat Petty",
+      "short_name": "Chat",
+      "description": "Conversar com assistente",
+      "url": "/?action=chat",
+      "icons": [
+        {
+          "src": "icons/shortcut-chat.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Timer Trabalho",
+      "short_name": "Timer",
+      "description": "Configurar áudio para trabalho",
+      "url": "/?action=work-timer",
+      "icons": [
+        {
+          "src": "icons/shortcut-timer.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+
+  "share_target": {
+    "action": "/share-progress",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "photo",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  },
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+pettezen",
+      "url": "/?handler=%s"
+    }
+  ],
+
+  "prefer_related_applications": false,
+  
+  "related_applications": [
+    {
+      "platform": "webapp", 
+      "url": "https://patasnoape.com/petty-zen"
+    }
+  ],
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+
+  "handle_links": "preferred",
+  
+  "display_override": [
+    "window-controls-overlay",
+    "minimal-ui", 
+    "standalone",
+    "fullscreen",
+    "browser"
+  ],
+
+  "file_handlers": [
+    {
+      "action": "/import-audio",
+      "accept": {
+        "audio/*": [".mp3", ".wav", ".ogg"]
+      }
+    }
+  ]
+}

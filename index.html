@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petty Zen - App de Relaxamento para Cães</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ff9800">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Petty Zen">
+    <meta name="description" content="App completo para relaxar seu cãozinho com áudios terapêuticos e acompanhamento personalizado">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="paw-loader">
+                <i class="fas fa-paw"></i>
+            </div>
+            <h2>Petty Zen</h2>
+            <p>Preparando o ambiente para seu cãozinho...</p>
+        </div>
+    </div>
+
+    <!-- Welcome/Login Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <div class="app-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <h1>Petty Zen</h1>
+                <p class="welcome-subtitle">O app que transforma a ansiedade do seu cão em paz e tranquilidade</p>
+            </div>
+            
+            <div class="welcome-features">
+                <div class="feature-item">
+                    <i class="fas fa-music"></i>
+                    <span>12 Áudios Relaxantes</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Acompanhamento Diário</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-robot"></i>
+                    <span>Assistente IA Petty</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Sistema de Conquistas</span>
+                </div>
+            </div>
+
+            <div class="login-form">
+                <h3>Vamos conhecer vocês dois! 💕</h3>
+                <div class="form-group">
+                    <label>Seu nome:</label>
+                    <input type="text" id="owner-name" placeholder="Como você gostaria de ser chamada?">
+                </div>
+                <div class="form-group">
+                    <label>Nome do seu cãozinho:</label>
+                    <input type="text" id="pet-name" placeholder="Qual o nome do seu bebê?">
+                </div>
+                <div class="form-group">
+                    <label>Raça:</label>
+                    <select id="pet-breed">
+                        <option value="">Selecione a raça</option>
+                        <option value="labrador">Labrador</option>
+                        <option value="golden">Golden Retriever</option>
+                        <option value="bulldog">Bulldog</option>
+                        <option value="poodle">Poodle</option>
+                        <option value="beagle">Beagle</option>
+                        <option value="pastor-alemao">Pastor Alemão</option>
+                        <option value="shih-tzu">Shih Tzu</option>
+                        <option value="yorkshire">Yorkshire</option>
+                        <option value="border-collie">Border Collie</option>
+                        <option value="husky">Husky Siberiano</option>
+                        <option value="boxer">Boxer</option>
+                        <option value="dachshund">Dachshund (Salsicha)</option>
+                        <option value="maltez">Maltês</option>
+                        <option value="pitbull">Pitbull</option>
+                        <option value="rottweiler">Rottweiler</option>
+                        <option value="srd">Sem Raça Definida (SRD)</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Idade:</label>
+                    <select id="pet-age">
+                        <option value="">Selecione a idade</option>
+                        <option value="filhote">Filhote (0-1 ano)</option>
+                        <option value="jovem">Jovem (1-3 anos)</option>
+                        <option value="adulto">Adulto (3-7 anos)</option>
+                        <option value="senior">Senior (7+ anos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nível de ansiedade atual:</label>
+                    <div class="anxiety-levels">
+                        <button type="button" class="anxiety-btn" data-level="baixo">
+                            <i class="fas fa-smile"></i>
+                            Baixo
+                        </button>
+                        <button type="button" class="anxiety-btn" data-level="medio">
+                            <i class="fas fa-meh"></i>
+                            Médio
+                        </button>
+                        <button type="button" class="anxiety-btn" data-level="alto">
+                            <i class="fas fa-frown"></i>
+                            Alto
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-primary" id="start-app">
+                    <i class="fas fa-heart"></i>
+                    Começar Jornada Zen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-container" class="app-container">
+        <!-- Top Navigation -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="user-info">
+                    <div class="pet-avatar">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div class="greetings">
+                        <span class="greeting-text">Oi, <span id="user-name-display"></span>!</span>
+                        <span class="pet-status">Como está o <span id="pet-name-display"></span> hoje?</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Screen -->
+            <div id="home-screen" class="content-screen active">
+                <div class="daily-card">
+                    <div class="daily-header">
+                        <h2>Sugestão do Dia</h2>
+                        <div class="weather-info">
+                            <i class="fas fa-cloud-rain"></i>
+                            <span>Clima perfeito para relaxar</span>
+                        </div>
+                    </div>
+                    <div class="recommended-session">
+                        <div class="session-image">
+                            <i class="fas fa-cloud-rain"></i>
+                        </div>
+                        <div class="session-info">
+                            <h3>Chuva Suave</h3>
+                            <p>Perfeito para dias chuvosos como hoje. Sons naturais que acalmam instantaneamente.</p>
+                            <div class="session-stats">
+                                <span><i class="fas fa-clock"></i> 5 min</span>
+                                <span><i class="fas fa-heart"></i> 98% eficaz</span>
+                            </div>
+                        </div>
+                        <button class="play-btn" data-audio="chuva-suave">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Ações Rápidas</h3>
+                    <div class="action-grid">
+                        <button class="action-btn" data-action="emergency">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>SOS Ansiedade</span>
+                        </button>
+                        <button class="action-btn" data-action="mood-check">
+                            <i class="fas fa-camera"></i>
+                            <span>Registro Diário</span>
+                        </button>
+                        <button class="action-btn" data-action="timer">
+                            <i class="fas fa-stopwatch"></i>
+                            <span>Timer Trabalho</span>
+                        </button>
+                        <button class="action-btn" data-action="chat">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat Petty</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="progress-summary">
+                    <h3>Progresso da Semana</h3>
+                    <div class="week-progress">
+                        <div class="progress-item completed">
+                            <span class="day">S</span>
+                            <div class="mood-indicator happy"></div>
+                        </div>
+                        <div class="progress-item completed">
+                            <span class="day">T</span>
+                            <div class="mood-indicator calm"></div>
+                        </div>
+                        <div class="progress-item completed">
+                            <span class="day">Q</span>
+                            <div class="mood-indicator happy"></div>
+                        </div>
+                        <div class="progress-item completed">
+                            <span class="day">Q</span>
+                            <div class="mood-indicator calm"></div>
+                        </div>
+                        <div class="progress-item active">
+                            <span class="day">S</span>
+                            <div class="mood-indicator"></div>
+                        </div>
+                        <div class="progress-item">
+                            <span class="day">S</span>
+                            <div class="mood-indicator"></div>
+                        </div>
+                        <div class="progress-item">
+                            <span class="day">D</span>
+                            <div class="mood-indicator"></div>
+                        </div>
+                    </div>
+                    <div class="trend-info">
+                        <i class="fas fa-trending-up"></i>
+                        <span>Tendência: Melhorando! 📈</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Player Screen -->
+            <div id="player-screen" class="content-screen">
+                <div class="player-container">
+                    <div class="player-visual">
+                        <div class="audio-animation">
+                            <div class="wave-circle"></div>
+                            <div class="wave-circle"></div>
+                            <div class="wave-circle"></div>
+                        </div>
+                        <div class="current-audio-info">
+                            <h2 id="current-audio-title">Selecione um áudio</h2>
+                            <p id="current-audio-description">Escolha um dos 12 áudios relaxantes</p>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <div class="progress-container">
+                            <span class="time-current">0:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                                <div class="progress-handle"></div>
+                            </div>
+                            <span class="time-total">5:00</span>
+                        </div>
+                        
+                        <div class="control-buttons">
+                            <button class="control-btn" id="prev-btn">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button class="control-btn play-pause-btn" id="play-pause-btn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="control-btn" id="next-btn">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+
+                        <div class="volume-container">
+                            <i class="fas fa-volume-down"></i>
+                            <input type="range" class="volume-slider" min="0" max="100" value="50">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+
+                        <div class="timer-controls">
+                            <h4>Timer Inteligente</h4>
+                            <div class="timer-options">
+                                <button class="timer-btn" data-minutes="10">10 min</button>
+                                <button class="timer-btn" data-minutes="30">30 min</button>
+                                <button class="timer-btn" data-minutes="60">1 hora</button>
+                                <button class="timer-btn" data-minutes="120">2 horas</button>
+                            </div>
+                            <div class="timer-display">
+                                <span id="timer-remaining"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="audio-library">
+                    <h3>Biblioteca de Áudios</h3>
+                    <div class="audio-grid">
+                        <div class="audio-card" data-audio="chuva-suave">
+                            <div class="audio-icon rain"></div>
+                            <h4>Chuva Suave</h4>
+                            <p>Relaxamento profundo</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.9</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                        <div class="audio-card" data-audio="ondas-mar">
+                            <div class="audio-icon waves"></div>
+                            <h4>Ondas do Mar</h4>
+                            <p>Tranquilidade infinita</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.8</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                        <div class="audio-card" data-audio="floresta-calma">
+                            <div class="audio-icon forest"></div>
+                            <h4>Floresta Calma</h4>
+                            <p>Paz da natureza</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.7</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                        <div class="audio-card" data-audio="lareira">
+                            <div class="audio-icon fire"></div>
+                            <h4>Lareira Acolhedora</h4>
+                            <p>Conforto do lar</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.9</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                        <div class="audio-card" data-audio="piano-zen">
+                            <div class="audio-icon piano"></div>
+                            <h4>Piano Zen</h4>
+                            <p>Serenidade musical</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.6</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                        <div class="audio-card" data-audio="violao-suave">
+                            <div class="audio-icon guitar"></div>
+                            <h4>Violão Suave</h4>
+                            <p>Melodia relaxante</p>
+                            <div class="audio-stats">
+                                <span>⭐ 4.8</span>
+                                <span>🎵 5min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Screen -->
+            <div id="progress-screen" class="content-screen">
+                <div class="progress-header">
+                    <h2>Progresso do <span id="pet-progress-name"></span></h2>
+                    <div class="streak-counter">
+                        <i class="fas fa-fire"></i>
+                        <span>7 dias consecutivos!</span>
+                    </div>
+                </div>
+
+                <div class="mood-chart-container">
+                    <h3>Humor da Semana</h3>
+                    <canvas id="mood-chart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="achievements-section">
+                    <h3>Conquistas Recentes</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement-card earned">
+                            <i class="fas fa-star"></i>
+                            <h4>Primeira Semana</h4>
+                            <p>7 dias de dedicação!</p>
+                        </div>
+                        <div class="achievement-card earned">
+                            <i class="fas fa-heart"></i>
+                            <h4>Mamãe Zen</h4>
+                            <p>Pet mais calmo detectado</p>
+                        </div>
+                        <div class="achievement-card">
+                            <i class="fas fa-trophy"></i>
+                            <h4>Pet Zen Master</h4>
+                            <p>30 dias para desbloquear</p>
+                            <div class="progress-badge">23/30</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-diary">
+                    <h3>Diário Visual</h3>
+                    <div class="photo-grid">
+                        <div class="photo-entry">
+                            <div class="photo-placeholder">
+                                <i class="fas fa-camera"></i>
+                                <span>Adicionar foto de hoje</span>
+                            </div>
+                            <div class="photo-date">Hoje</div>
+                            <div class="mood-selector">
+                                <button class="mood-btn" data-mood="anxious"><i class="fas fa-frown"></i></button>
+                                <button class="mood-btn" data-mood="calm"><i class="fas fa-meh"></i></button>
+                                <button class="mood-btn" data-mood="happy"><i class="fas fa-smile"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Screen -->
+            <div id="chat-screen" class="content-screen">
+                <div class="chat-header">
+                    <div class="chat-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="chat-info">
+                        <h3>Assistente Petty</h3>
+                        <span class="status online">Online • Especialista em cães</span>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            <p>Olá! 🐾 Sou a Petty, sua assistente especialista em bem-estar canino! Como posso ajudar você e seu cãozinho hoje?</p>
+                        </div>
+                        <span class="message-time">Agora</span>
+                    </div>
+                </div>
+
+                <div class="quick-questions">
+                    <h4>Perguntas Frequentes:</h4>
+                    <div class="question-chips">
+                        <button class="question-chip">Meu cão está latindo muito</button>
+                        <button class="question-chip">Qual áudio usar hoje?</button>
+                        <button class="question-chip">Como sei se está funcionando?</button>
+                        <button class="question-chip">Pet ansioso com chuva</button>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <input type="text" placeholder="Digite sua pergunta..." id="chat-input">
+                        <button class="send-btn" id="send-message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Screen -->
+            <div id="settings-screen" class="content-screen">
+                <div class="settings-header">
+                    <h2>Configurações</h2>
+                </div>
+
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>Perfil do Pet</h3>
+                        <div class="setting-item">
+                            <label>Nome:</label>
+                            <input type="text" id="settings-pet-name" class="settings-input">
+                        </div>
+                        <div class="setting-item">
+                            <label>Raça:</label>
+                            <select id="settings-pet-breed" class="settings-select">
+                                <option value="labrador">Labrador</option>
+                                <option value="golden">Golden Retriever</option>
+                                <!-- Outras opções -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Notificações</h3>
+                        <div class="setting-item toggle-item">
+                            <label>Lembretes de sessão</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="reminder-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                        <div class="setting-item toggle-item">
+                            <label>Notificações de progresso</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="progress-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Sobre o App</h3>
+                        <div class="setting-item">
+                            <span>Versão 1.0.0</span>
+                        </div>
+                        <div class="setting-item">
+                            <span>Desenvolvido com ❤️ para o Patas no Apê</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-screen="home">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </button>
+            <button class="nav-btn" data-screen="player">
+                <i class="fas fa-play"></i>
+                <span>Player</span>
+            </button>
+            <button class="nav-btn" data-screen="progress">
+                <i class="fas fa-chart-line"></i>
+                <span>Progresso</span>
+            </button>
+            <button class="nav-btn" data-screen="chat">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </button>
+            <button class="nav-btn" data-screen="settings">
+                <i class="fas fa-cog"></i>
+                <span>Config</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="audio-player" preload="none">
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/audio-player.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/progress.js"></script>
+</body>
+</html>
