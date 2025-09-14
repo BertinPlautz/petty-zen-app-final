@@ -61,37 +61,6 @@
       "purpose": "any maskable"
     }
   ],
-  
-  "screenshots": [
-    {
-      "src": "screenshots/home.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Tela inicial com recomendação diária"
-    },
-    {
-      "src": "screenshots/player.png", 
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Player de áudio com biblioteca completa"
-    },
-    {
-      "src": "screenshots/progress.png",
-      "sizes": "390x844", 
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Gráficos de progresso e conquistas"
-    },
-    {
-      "src": "screenshots/chat.png",
-      "sizes": "390x844",
-      "type": "image/png", 
-      "form_factor": "narrow",
-      "label": "Assistente virtual Petty"
-    }
-  ],
 
   "shortcuts": [
     {
@@ -101,7 +70,7 @@
       "url": "/?action=emergency",
       "icons": [
         {
-          "src": "icons/shortcut-emergency.png",
+          "src": "assets/icons/icon-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -114,7 +83,7 @@
       "url": "/?action=mood-check",
       "icons": [
         {
-          "src": "icons/shortcut-mood.png",
+          "src": "assets/icons/icon-96x96.png",
           "sizes": "96x96", 
           "type": "image/png"
         }
@@ -127,7 +96,7 @@
       "url": "/?action=chat",
       "icons": [
         {
-          "src": "icons/shortcut-chat.png",
+          "src": "assets/icons/icon-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -140,7 +109,7 @@
       "url": "/?action=work-timer",
       "icons": [
         {
-          "src": "icons/shortcut-timer.png",
+          "src": "assets/icons/icon-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -148,63 +117,5 @@
     }
   ],
 
-  "share_target": {
-    "action": "/share-progress",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "photo",
-          "accept": ["image/*"]
-        }
-      ]
-    }
-  },
-
-  "protocol_handlers": [
-    {
-      "protocol": "web+pettezen",
-      "url": "/?handler=%s"
-    }
-  ],
-
-  "prefer_related_applications": false,
-  
-  "related_applications": [
-    {
-      "platform": "webapp", 
-      "url": "https://patasnoape.com/petty-zen"
-    }
-  ],
-
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  },
-
-  "handle_links": "preferred",
-  
-  "display_override": [
-    "window-controls-overlay",
-    "minimal-ui", 
-    "standalone",
-    "fullscreen",
-    "browser"
-  ],
-
-  "file_handlers": [
-    {
-      "action": "/import-audio",
-      "accept": {
-        "audio/*": [".mp3", ".wav", ".ogg"]
-      }
-    }
-  ]
+  "prefer_related_applications": false
 }
